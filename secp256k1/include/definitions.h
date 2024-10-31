@@ -279,8 +279,8 @@ struct json_t
 {
     size_t cap;
     size_t len;
-    char * ptr;
-    jsmntok_t * toks;
+    char * ptr = nullptr;
+    jsmntok_t * toks = nullptr;
 
     json_t(const int strlen, const int toklen);
     json_t(const json_t & newjson);

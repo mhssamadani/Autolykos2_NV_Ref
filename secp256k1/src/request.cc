@@ -455,7 +455,7 @@ int GetLatestBlock(
     // if curl returns error on request, do not change or check anything 
     if (!curlError)
     {
-        int oldId = info->blockId.load();
+        unsigned int oldId = info->blockId.load();
         if(ParseRequest(oldreq, &newreq, info, checkPubKey,http_code) != EXIT_SUCCESS)
         {
             return EXIT_FAILURE;
@@ -531,7 +531,6 @@ int PostPuzzleSolution(
     const uint8_t * nonce
 )
 {
-    uint32_t len;
     uint32_t pos = 0;
 
     char request[JSON_CAPACITY];

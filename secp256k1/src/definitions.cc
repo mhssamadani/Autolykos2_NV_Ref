@@ -40,10 +40,7 @@ json_t::json_t(const json_t & newjson)
     cap = newjson.cap;
     len = newjson.len;
 
-    FREE(ptr);
     ptr = newjson.ptr;
-
-    FREE(toks);
     toks = newjson.toks;
 
     return;

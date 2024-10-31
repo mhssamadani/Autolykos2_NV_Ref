@@ -19,7 +19,8 @@ void HttpApiThread(std::vector<double>* hashrates, std::vector<std::pair<int,int
     svr.Get("/", [&](const Request& req, Response& res) {
         
         std::unordered_map<int, double> hrMap;
-        for(int i = 0; i < (*hashrates).size() ; i++)
+        size_t const hashrateSize = (*hashrates).size();
+        for(size_t i = 0; i < hashrateSize; i++)
         {
             hrMap[key((*props)[i])] = (*hashrates)[i];
         }
@@ -42,7 +43,7 @@ void HttpApiThread(std::vector<double>* hashrates, std::vector<std::pair<int,int
             strBuf << " \"gpus\":" << devcount << " , ";
             strBuf << " \"devices\" : [ " ;
 
-            for(int i = 0; i < devcount; i++)
+            for(unsigned int i = 0u; i < devcount; i++)
             {
                 std::stringstream deviceInfo;
                 nvmlDevice_t device;

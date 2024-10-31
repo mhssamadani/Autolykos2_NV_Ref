@@ -13,7 +13,7 @@ AutolykosAlg::AutolykosAlg()
 
 
 	int tr = sizeof(unsigned long long);
-	for (size_t i = 0; i < CONST_MES_SIZE_8 / tr; i++)
+	for (int i = 0; i < CONST_MES_SIZE_8 / tr; i++)
 	{
 		unsigned long long tmp = i;
 		uint8_t tmp2[8];
@@ -78,12 +78,6 @@ void AutolykosAlg::Blake2b256(const char * in,
 
 void AutolykosAlg::GenIdex(const char * in, const int len, uint32_t* index, uint64_t N_LEN)
 {
-	int a = INDEX_SIZE_8;
-	int b = K_LEN;
-	int c = NUM_SIZE_8;
-	int d = NUM_SIZE_4;
-
-
 	uint8_t sk[NUM_SIZE_8 * 2];
 	char skstr[NUM_SIZE_4 + 10];
 
@@ -218,15 +212,12 @@ bool AutolykosAlg::RunAlg(
 	int rep = 0;
 	int off = 0;
 	uint8_t tmp[NUM_SIZE_8 - 1];
-	char hesStr[64 + 1];
 	uint8_t tmp2[4];
 	uint8_t tmp1[4];
 
 	unsigned char f[32];
 	memset(f, 0, 32);
 
-	char *LSUMM;
-	char *LB;
 	for (rep = 0; rep < 32; rep++)
 	{
 		memset(Hinput, 0, ll);
@@ -257,14 +248,10 @@ bool AutolykosAlg::RunAlg(
 
 		CALL(BN_add(bigsum, bigsum, bigres), ERROR_OPENSSL);
 
-		LB = BN_bn2dec(bigres);
-
 		BN_bn2bin(bigsum, f);
 
 
 	}
-
-	const char *SUMMbigEndian = BN_bn2dec(bigsum);
 
 	BN_bn2bin(bigsum, f);
 	char bigendian2littl[32];
@@ -275,7 +262,6 @@ bool AutolykosAlg::RunAlg(
 
 	BIGNUM* littleF = BN_new();
 	CALL(BN_bin2bn((const unsigned char *)bigendian2littl, 32, littleF), ERROR_OPENSSL);
-	const char *SUMMLittleEndian = BN_bn2dec(littleF);
 
 	char hf[32];
 	hashFn((const char *)f, 32, (uint8_t *)hf);
@@ -293,9 +279,6 @@ bool AutolykosAlg::RunAlg(
 	CALL(BN_bin2bn((const unsigned char *)littl2big, 32, bigB), ERROR_OPENSSL);
 
 	int cmp = BN_cmp(bigHF, bigB);
-
-	const char *chD = BN_bn2dec(bigHF);
-	const char *chB = BN_bn2dec(bigB);
 
 
 	BN_free(bigsum);
