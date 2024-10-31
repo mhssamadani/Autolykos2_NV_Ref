@@ -60,7 +60,7 @@ int TestSolutions(
     // boundary for puzzle
     // ~0 MiB
     uint32_t * bound_d;
-    CUDA_CALL(cudaMalloc(&bound_d, NUM_SIZE_8 + DATA_SIZE_8));
+    CUDA_CALL(cudaMalloc(&bound_d, static_cast<size_t>(NUM_SIZE_8) + static_cast<size_t>(DATA_SIZE_8)));
     // data: pk || mes || w || padding || x || sk || ctx
     // (2 * PK_SIZE_8 + 2 + 3 * NUM_SIZE_8 + 212 + 4) bytes // ~0 MiB
     uint32_t * data_d = bound_d + NUM_SIZE_32;
@@ -68,12 +68,12 @@ int TestSolutions(
     // precalculated hashes
     // N_LEN * NUM_SIZE_8 bytes // 2 GiB
     uint32_t * hashes_d;
-    CUDA_CALL(cudaMalloc(&hashes_d, (uint32_t)N_LEN * NUM_SIZE_8));
+    CUDA_CALL(cudaMalloc(&hashes_d, static_cast<size_t>(N_LEN) * static_cast<size_t>(NUM_SIZE_8)));
 
     // WORKSPACE_SIZE_8 bytes
     // potential solutions of puzzle
     uint32_t * res_d;
-    CUDA_CALL(cudaMalloc(&res_d, WORKSPACE_SIZE_8));
+    CUDA_CALL(cudaMalloc(&res_d, static_cast<size_t>(WORKSPACE_SIZE_8)));
     // indices of unfinalized hashes
     uint32_t * indices_d = res_d + NONCES_PER_ITER * NUM_SIZE_32;
 
@@ -81,7 +81,7 @@ int TestSolutions(
 
     if (info->keepPrehash)
     {
-        CUDA_CALL(cudaMalloc(&uctxs_d, (uint32_t)N_LEN * sizeof(uctx_t)));
+        CUDA_CALL(cudaMalloc(&uctxs_d, static_cast<size_t>(N_LEN) * sizeof(uctx_t)));
     }
 
     //========================================================================//
@@ -205,7 +205,7 @@ int TestPerformance(
     // boundary for puzzle
     // ~0 MiB
     uint32_t * bound_d;
-    CUDA_CALL(cudaMalloc(&bound_d, NUM_SIZE_8 + DATA_SIZE_8));
+    CUDA_CALL(cudaMalloc(&bound_d, static_cast<size_t>(NUM_SIZE_8) + static_cast<size_t>(DATA_SIZE_8)));
     // data: pk || mes || w || padding || x || sk || ctx
     // (2 * PK_SIZE_8 + 2 + 3 * NUM_SIZE_8 + 212 + 4) bytes // ~0 MiB
     uint32_t * data_d = bound_d + NUM_SIZE_32;
@@ -213,12 +213,12 @@ int TestPerformance(
     // precalculated hashes
     // N_LEN * NUM_SIZE_8 bytes // 2 GiB
     uint32_t * hashes_d;
-    CUDA_CALL(cudaMalloc(&hashes_d, (uint32_t)N_LEN * NUM_SIZE_8));
+    CUDA_CALL(cudaMalloc(&hashes_d, static_cast<size_t>(N_LEN) * NUM_SIZE_8));
 
     // WORKSPACE_SIZE_8 bytes
     // potential solutions of puzzle
     uint32_t * res_d;
-    CUDA_CALL(cudaMalloc(&res_d, WORKSPACE_SIZE_8));
+    CUDA_CALL(cudaMalloc(&res_d, static_cast<size_t>(WORKSPACE_SIZE_8)));
     // indices of unfinalized hashes
     uint32_t * indices_d = res_d + NONCES_PER_ITER * NUM_SIZE_32;
 
@@ -226,7 +226,7 @@ int TestPerformance(
 
     if (info->keepPrehash)
     {
-        CUDA_CALL(cudaMalloc(&uctxs_d, (uint32_t)N_LEN * sizeof(uctx_t)));
+        CUDA_CALL(cudaMalloc(&uctxs_d, static_cast<size_t>(N_LEN) * sizeof(uctx_t)));
     }
 
     //========================================================================//
