@@ -143,25 +143,25 @@ void MinerThread(const int totalGPUCards, int deviceId, info_t * info, std::vect
 
     // height for puzzle
     uint32_t * height_d;
-    CUDA_CALL(cudaMalloc(&height_d, HEIGHT_SIZE));
+    CUDA_CALL(cudaMalloc(&height_d, static_cast<size_t>(HEIGHT_SIZE)));
 
     uint32_t * data_d;
-    CUDA_CALL(cudaMalloc(&data_d, NUM_SIZE_8 + sizeof(ctx_t) ) );
+    CUDA_CALL(cudaMalloc(&data_d, static_cast<size_t>(NUM_SIZE_8) + sizeof(ctx_t) ) );
 
     
     uint32_t* BHashes;
-    CUDA_CALL(cudaMalloc(&BHashes, (NUM_SIZE_8)*THREADS_PER_ITER) );
+    CUDA_CALL(cudaMalloc(&BHashes, static_cast<size_t>(NUM_SIZE_8) * static_cast<size_t>(THREADS_PER_ITER)) );
 
     // precalculated hashes
     // N_LEN * NUM_SIZE_8 bytes // 2 GiB
     uint64_t N_LEN = INIT_N_LEN;
     uint32_t * hashes_d; 
-    CUDA_CALL(cudaMalloc(&hashes_d, (uint32_t)N_LEN * NUM_SIZE_8) );
+    CUDA_CALL(cudaMalloc(&hashes_d, static_cast<size_t>(N_LEN) * static_cast<size_t>(NUM_SIZE_8)) );
     //LOG(INFO) << "g" << LocalgpuId << " hashes_d: " << hashes_d <<  " ghashes_d[gpuId]: " << ghashes_d[gpuId];
 
     // place to handle result of the puzzle
     uint32_t * indices_d;
-    CUDA_CALL(cudaMalloc(&indices_d, MAX_SOLS*sizeof(uint32_t)) );
+    CUDA_CALL(cudaMalloc(&indices_d, static_cast<size_t>(MAX_SOLS) * sizeof(uint32_t)) );
 
     // place to handle nonce if solution is found
     uint32_t indices_h[MAX_SOLS];
@@ -262,7 +262,7 @@ void MinerThread(const int totalGPUCards, int deviceId, info_t * info, std::vect
 			if (oldN != N_LEN)
 			{
 				CUDA_CALL(cudaFree(hashes_d));
-				CUDA_CALL(cudaMalloc(&hashes_d, (uint32_t)N_LEN * NUM_SIZE_8) );
+				CUDA_CALL(cudaMalloc(&hashes_d, static_cast<size_t>(N_LEN) * static_cast<size_t>(NUM_SIZE_8)) );
 				if (hashes_d == NULL)
 				{
 					LOG(INFO) << "GPU " << deviceId << "error in  allocating hashes_d";
